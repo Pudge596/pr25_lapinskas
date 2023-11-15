@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SoundPool mSoundPool;
     private AssetManager mAssetManager;
@@ -49,46 +49,23 @@ public class MainActivity extends AppCompatActivity {
         mSheepSound = loadSound("sheep.ogg");
 
         ImageButton cowImageButton = findViewById(R.id.image_cow);
-        cowImageButton.setOnClickListener(onClickListener);
+        cowImageButton.setOnClickListener(this);
 
         ImageButton chickenImageButton = findViewById(R.id.image_chicken);
-        chickenImageButton.setOnClickListener(onClickListener);
+        chickenImageButton.setOnClickListener(this);
 
         ImageButton catImageButton = findViewById(R.id.image_cat);
-        catImageButton.setOnClickListener(onClickListener);
+        catImageButton.setOnClickListener(this);
 
         ImageButton duckImageButton = findViewById(R.id.image_duck);
-        duckImageButton.setOnClickListener(onClickListener);
+        duckImageButton.setOnClickListener(this);
 
         ImageButton sheepImageButton = findViewById(R.id.image_sheep);
-        sheepImageButton.setOnClickListener(onClickListener);
+        sheepImageButton.setOnClickListener(this);
 
         ImageButton dogImageButton = findViewById(R.id.image_dog);
-        dogImageButton.setOnClickListener(onClickListener);
-
-
-        cowImageButton.setOnTouchListener(new View.OnTouchListener() {
-
-            public boolean onTouch(View v, MotionEvent event) {
-                int eventAction = event.getAction();
-                if (eventAction == MotionEvent.ACTION_UP) {
-                    // Отпускаем палец
-                    if (mStreamID > 0)
-                        mSoundPool.stop(mStreamID);
-                }
-                if (eventAction == MotionEvent.ACTION_DOWN) {
-                    // Нажимаем на кнопку
-                    mStreamID = playSound(mCowSound);
-                }
-                if (event.getAction() == MotionEvent.ACTION_CANCEL) {
-                    mSoundPool.stop(mStreamID);
-                }
-                return true;
-            }
-        });
+        dogImageButton.setOnClickListener(this);
     }
-
-    View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
@@ -112,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         }
-    };
+
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void createNewSoundPool() {
